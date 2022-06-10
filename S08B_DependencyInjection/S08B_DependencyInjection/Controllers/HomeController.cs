@@ -1,13 +1,16 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S08B_DependencyInjection_Models;
+using S08B_DependencyInjection_Services.Interfaces;
 using System.Diagnostics;
 
 namespace S08B_DependencyInjection.Controllers
 {
     public class HomeController : Controller
     {
-        public HomeController()
+        private readonly IMessageWriter _msgWriter;
+        public HomeController(IMessageWriter msgWriter)
         {
+            _msgWriter = msgWriter;
         }
 
         public IActionResult Index()
@@ -18,6 +21,7 @@ namespace S08B_DependencyInjection.Controllers
         [HttpPost]
         public IActionResult ManageNumber(int number)
         {
+            _msgWriter.Write("Le nombre est: " + number);
             return RedirectToAction(nameof(Index));
         }
 
